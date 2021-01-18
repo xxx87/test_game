@@ -1,0 +1,36 @@
+.puzzleSquare {
+  text-transform: uppercase;
+  background-color: #3d4476;
+  border: 0;
+  color: white;
+  font: 5vw sans-serif;
+}
+@media only screen and (min-width: 600px) {
+  #puzzle {
+    float: left;
+    padding: 1rem;
+  }
+  .puzzleSquare {
+    height: 3.5rem;
+    width: 3.5rem;
+    font: 2.5rem sans-serif;
+  }
+}
+
+#puzzle .selected {
+  background-color: orange;
+}
+
+#puzzle .found {
+  background-color: blue;
+  color: white;
+}
+
+#puzzle .solved {
+  background-color: purple;
+  color: white;
+}
+
+#puzzle .complete {
+  background-color: green;
+}
