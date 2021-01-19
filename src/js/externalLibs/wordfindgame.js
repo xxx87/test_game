@@ -260,25 +260,21 @@
      *
      * @param {[[String]]} puzzle: The puzzle to solve
      */
-    this.solve = function() {
-      var solution = wordfind.solve(puzzle, wordList).found;
+    this.solve = function(userWord) {
+      var solution = wordfind.solve(puzzle, userWord).found;
+      var word = solution[0].word,
+        orientation = solution[0].orientation,
+        x = solution[0].x,
+        y = solution[0].y,
+        next = wordfind.orientations[orientation];
 
-      for (var i = 0, len = solution.length; i < len; i++) {
-        var word = solution[i].word,
-          orientation = solution[i].orientation,
-          x = solution[i].x,
-          y = solution[i].y,
-          next = wordfind.orientations[orientation];
-
-        var wordEl = $('input.word[value="' + word + '"]');
-        if (!wordEl.hasClass("wordFound")) {
-          for (var j = 0, size = word.length; j < size; j++) {
-            var nextPos = next(x, y, j);
-            $('[x="' + nextPos.x + '"][y="' + nextPos.y + '"]').addClass("solved");
-          }
-
-          wordEl.addClass("wordFound");
+      var wordEl = $('input.word[value="' + word + '"]');
+      if (!wordEl.hasClass("wordFound")) {
+        for (var j = 0, size = word.length; j < size; j++) {
+          var nextPos = next(x, y, j);
+          $('[x="' + nextPos.x + '"][y="' + nextPos.y + '"]').addClass("solved");
         }
+        wordEl.addClass("wordFound");
       }
     };
   };

@@ -1,0 +1,72 @@
+$dkBlue: #306a8b;
+$ltblue: #6891ad;
+$red: #ee5426;
+$lightGrey: #c4c4c4;
+$foundWord: #ee5426;
+
+body {
+  background: $dkBlue;
+}
+
+.puzzleWrap {
+  width: 850px;
+  margin: 50px auto 0;
+}
+
+p {
+  font: 22pt sans-serif;
+  margin: 20px 20px 0px 45px;
+  color: $ltblue;
+}
+
+/**
+* Styles for the puzzle
+*/
+#puzzle {
+  float: left;
+  width: 600px;
+}
+
+#puzzle div {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* style for each square in the puzzle */
+#puzzle .puzzleSquare {
+  height: 37px;
+  width: 50px;
+  text-transform: uppercase;
+  border: 0;
+  outline: none;
+  font: 1.5em sans-serif;
+  color: white;
+}
+
+button::-moz-focus-inner {
+  border: none;
+  outline: none;
+}
+
+/* indicates when a square has been selected */
+#puzzle .selected {
+  color: #ee26cd;
+  outline: none;
+
+  &:focus {
+    border: none;
+  }
+}
+
+/* indicates that the square is part of a word that has been found */
+#puzzle .found {
+  color: $foundWord;
+  border-radius: 10px;
+}
+
+#puzzle .solved {
+  color: $foundWord;
+  font-weight: bold;
+  border: 1px solid $foundWord;
+  border-radius: 50%;
+}
