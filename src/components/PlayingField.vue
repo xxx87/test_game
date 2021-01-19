@@ -22,13 +22,13 @@
             <v-list color="transparent" three-line>
               <template v-for="(item, idx) in users">
                 <v-hover :key="idx" v-slot="{ hover }">
-                  <v-card @click="test(item.word)" color="#4E4A97" :class="{ 'on-hover': hover }" class="mb-2 rounded-xl">
+                  <v-card @click="test(item.answer)" color="#4E4A97" :class="{ 'on-hover': hover }" class="mb-2 rounded-xl">
                     <v-list-item>
                       <v-list-item-avatar size="55">
-                        <v-img :src="item.avatar"></v-img>
+                        <v-img :src="item.author.avatar"></v-img>
                       </v-list-item-avatar>
-                      <v-list-item-title v-html="item.name"></v-list-item-title>
-                      <span class="user-words">{{ item.word.toUpperCase() }}</span>
+                      <v-list-item-title v-html="item.author.name"></v-list-item-title>
+                      <span class="user-words">{{ item.answer.toUpperCase() }}</span>
                     </v-list-item>
                   </v-card>
                 </v-hover>
@@ -42,60 +42,57 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 require("@/js/externalLibs/wordfindgame");
+import { mapVuexModels } from "vuex-models";
+
 export default {
   name: "HelloWorld",
-
   data() {
-    return {
-      wList: [
-        "complice",
-        "creative",
-        "elegante",
-        "farceuse",
-        "joviale",
-        "motivee",
-        "ordonnee",
-        "prudente",
-        "sexy",
-        "tendre",
-        "random",
-        "love",
-        "branch",
-        "grid",
-        "drags",
-        "Black",
-        "Dog",
-        "Package",
-        "Block",
-        "Speed"
-      ],
-      users: [
-        { avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg", name: "Anna", word: "Black" },
-        { avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg", name: "Vova", word: "Dog" },
-        { avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg", name: "Lena", word: "Package" },
-        { avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg", name: "Grisha", word: "Block" },
-        { avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg", name: "Misha", word: "Speed" }
-      ]
-    };
+    return {};
+  },
+  computed: {
+    ...mapVuexModels(["users", "wordList"], "gsm")
+  },
+  watch: {
+    users(newValue, oldValue) {
+      let me = this;
+      if (newValue.length === 5 && oldValue.length === 5) {
+        clearInterval(me.refreshIntervalId);
+        setTimeout(() => {
+          me.recreate();
+          me.getAnswer();
+        }, 1000);
+      }
+    }
   },
   mounted() {
     let me = this;
-
-    function recreate() {
+    me.getAnswer();
+    me.recreate();
+  },
+  methods: {
+    ...mapActions("answers", ["getUserAnswer"]),
+    getAnswer() {
+      let me = this;
+      me.refreshIntervalId = setInterval(() => {
+        me.getUserAnswer().then((answer) => {
+          me.game.solve(answer.answer);
+        });
+      }, 1000);
+    },
+    recreate() {
+      let me = this;
       let game;
       try {
-        game = new WordFindGame("#puzzle", {}, me.wList);
+        game = new WordFindGame("#puzzle", {}, me.wordList);
       } catch (error) {
         console.error(error);
         return;
       }
       wordfind.print(game);
       me.game = game;
-    }
-    recreate();
-  },
-  methods: {
+    },
     test(word) {
       let me = this;
       me.game.solve(word);
@@ -105,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/new";
+@import "@/styles/puzzle";
 .on-hover {
   opacity: 0.6;
 }
