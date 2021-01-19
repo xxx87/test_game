@@ -1,34 +1,34 @@
 <template>
-  <v-container class="playground my-6">
+  <v-container class="game my-6">
     <v-row no-gutters>
       <v-col cols="7">
-        <v-card class="mx-5 my-6 rounded-xl" color="#3D4476" dark min-height="550">
+        <v-card class="game__letters-card mx-5 my-6 rounded-xl" color="#3D4476" dark min-height="550">
           <v-card-title>
-            <span class="">Round: 1/20</span>
+            <span>Round: 1/20</span>
           </v-card-title>
           <v-divider dark></v-divider>
           <v-card-text>
-            <div id="puzzle"></div>
+            <div class="game__letters-card__puzzle-area" id="puzzle"></div>
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="5">
-        <v-card class="ml-3" color="#30365E" dark min-height="600">
+        <v-card class="game__users-card ml-3" color="#30365E" dark min-height="600">
           <v-card-title>
             <span class="">WORDS</span>
           </v-card-title>
           <v-divider dark></v-divider>
           <v-card-text>
-            <v-list color="transparent" three-line>
+            <v-list class="game__users-card__list" three-line>
               <template v-for="(item, idx) in users">
                 <v-hover :key="idx" v-slot="{ hover }">
-                  <v-card @click="test(item.answer)" color="#4E4A97" :class="{ 'on-hover': hover }" class="mb-2 rounded-xl">
+                  <v-card @click="checkWord(item.answer)" color="#4E4A97" :class="{ 'game__users-card__user-card': hover }" class="mb-2 rounded-xl">
                     <v-list-item>
                       <v-list-item-avatar size="55">
                         <v-img :src="item.author.avatar"></v-img>
                       </v-list-item-avatar>
                       <v-list-item-title v-html="item.author.name"></v-list-item-title>
-                      <span class="user-words">{{ item.answer.toUpperCase() }}</span>
+                      <span class="game__users-card__user-word">{{ item.answer.toUpperCase() }}</span>
                     </v-list-item>
                   </v-card>
                 </v-hover>
@@ -79,7 +79,7 @@ export default {
         me.getUserAnswer().then((answer) => {
           me.game.solve(answer.answer);
         });
-      }, 1000);
+      }, 2000);
     },
     recreate() {
       let me = this;
@@ -93,7 +93,7 @@ export default {
       wordfind.print(game);
       me.game = game;
     },
-    test(word) {
+    checkWord(word) {
       let me = this;
       me.game.solve(word);
     }
@@ -103,21 +103,19 @@ export default {
 
 <style lang="scss">
 @import "@/styles/puzzle";
-.on-hover {
-  opacity: 0.6;
-}
-
-.transparent {
-  color: rgba(255, 255, 255, 0);
-}
-.playground {
+.game {
   background-color: #232744;
   height: 600px;
   max-width: 1170px !important;
   padding: 0 !important;
 }
-
-.user-words {
+.game__users-card__list {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+.game__users-card__user-card {
+  opacity: 0.6;
+}
+.game__users-card__user-word {
   font-size: large;
   padding: 10px;
   border: 1px solid #000;
