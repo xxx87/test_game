@@ -4,11 +4,11 @@
 ```
 cd ./backend
 ```
-## Install dependencies
+- Install dependencies
 ```
 npm install
 ```
-## Run (by default on port 3001)
+- Run (by default on port 3001)
 ```
 npm start
 ```
@@ -17,15 +17,15 @@ npm start
 ```
 cd ..
 ```
-## Install dependencies
+- Install dependencies
 ```
 npm install
 ```
-### Compiles and hot-reloads for development
+- Compiles and hot-reloads for development
 ```
 npm start
 ```
-### Compiles and minifies for production
+- Compiles and minifies for production
 ```
 npm run build
 ```
