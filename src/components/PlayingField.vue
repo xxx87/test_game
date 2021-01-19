@@ -4,7 +4,7 @@
       <v-col cols="7">
         <v-card class="game__letters-card mx-5 my-6 rounded-xl" color="#3D4476" dark min-height="550">
           <v-card-title>
-            <span>Round: 1/20</span>
+            <span>Round: {{ roundCount }}/20</span>
           </v-card-title>
           <v-divider dark></v-divider>
           <v-card-text>
@@ -49,7 +49,9 @@ import { mapVuexModels } from "vuex-models";
 export default {
   name: "HelloWorld",
   data() {
-    return {};
+    return {
+      roundCount: 1
+    };
   },
   computed: {
     ...mapVuexModels(["users", "wordList"], "gsm")
@@ -57,11 +59,13 @@ export default {
   watch: {
     users(newValue, oldValue) {
       let me = this;
+      if (me.roundCount === 20) me.roundCount = 1;
       if (newValue.length === 5 && oldValue.length === 5) {
         clearInterval(me.refreshIntervalId);
         setTimeout(() => {
           me.recreate();
           me.getAnswer();
+          me.roundCount++;
         }, 1000);
       }
     }
