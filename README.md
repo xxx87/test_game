@@ -1,19 +1,31 @@
 # word_search_game
 
-## Project setup
+## Backend setup
+```
+cd ./backend
+```
+## Install dependencies
 ```
 npm install
 ```
+## Run (by default on port 3001)
+```
+npm start
+```
 
+## Frontend setup
+```
+cd ..
+```
+## Install dependencies
+```
+npm install
+```
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm start
 ```
-
 ### Compiles and minifies for production
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
